@@ -15,14 +15,14 @@ var Promise = require('bluebird');
  */
 
 var promisify = function(nodeStyleFn) {
- // TODO
+// TODO
   return new Promise(function(resolve, reject) {
     nodeStyleFn(function(err, data) {
-    if (err) {
-      reject(err);
-    } else {
-      resolve(data);
-    }
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
     });
   });
 };
