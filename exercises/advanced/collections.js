@@ -9,7 +9,7 @@
  */
 
 var Promise = require('bluebird');
-var fs = require('fs');
+var fs = Promise.promisifyAll(require('fs')); //all fs methods return promise, suffix with 'Async'
 
 // This function returns a Promise. Returns data in .then() through 'resolve'
 // pluckFirstLineFromFile()
@@ -41,9 +41,11 @@ var combineFirstLineOfManyFiles = function(filePaths, writePath) {
     //when all promises in promiseArr are resolved,
     // write each line to the writePath with \n in between
     var msg = firstLines.join('\n');
-    fs.writeFile(writePath, msg, (err)=>{
-      console.log('file saved');
-    });
+    //writeFileAsync().then(func)
+    //writeFileAsync returns a promise. The func in .then() will be executed when the promise is fulfilled. i.e. when the writeFile action finishes
+    //here we don't need to chain .then(), instead we return the promise
+    //when the promise is fulfilled (writeFile finishes), the outer func calling combineFirstLineOfManyFiles can use .then() to continue with next action
+    return fs.writeFileAsync(writePath, msg);
   });
 
 };
