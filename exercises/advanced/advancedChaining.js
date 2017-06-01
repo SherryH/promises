@@ -31,8 +31,14 @@ var searchCommonTagsFromGitHubProfiles = function(githubHandles) {
   var arr = githubHandles.map(function(handle) {
     return lib.getGitHubProfile(handle)
     .then(function(profile){
-      return profile;
+      return profile.avatarUrl;
     });
+  });
+
+  lib.authenticateImageTagger()
+  .then(function(token) {
+    console.log('token',token);
+    //now need to get a set of tags for each url using tagImage()
   });
 
   return Promise.all(arr);

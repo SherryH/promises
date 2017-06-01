@@ -31,13 +31,14 @@ describe('Advanced chaining', function() {
       this.timeout(5000);
       searchCommonTagsFromGitHubProfiles(['danthareja', 'beth'])
         .then(function(tags) {
+          console.log('tags', tags);
           var uniques = Object.keys(
             tags.reduce(function(hash, tag) {
+          console.log('hash', hash);
               hash[tag] = tag;
               return hash;
             }, {})
           );
-
           expect(uniques.length).to.equal(tags.length);
           done();
         })
