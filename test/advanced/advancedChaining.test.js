@@ -12,12 +12,12 @@ describe('Advanced chaining', function() {
   describe('searchCommonTagsFromGitHubProfiles', function() {
     var searchCommonTagsFromGitHubProfiles = chaining.searchCommonTagsFromGitHubProfiles;
 
-    it('should return a promise', function() {
+    xit('should return a promise', function() {
       // Must return a Bluebird promise. ES6 promise won't work here
       expect(searchCommonTagsFromGitHubProfiles(['danthareja'])).to.be.an.instanceOf(Promise);
     });
 
-    it('should resolve to an array of tags', function(done) {
+    xit('should resolve to an array of tags', function(done) {
       this.timeout(5000);
       searchCommonTagsFromGitHubProfiles(['danthareja'])
         .then(function(tags) {
@@ -34,7 +34,7 @@ describe('Advanced chaining', function() {
           console.log('tags', tags);
           var uniques = Object.keys(
             tags.reduce(function(hash, tag) {
-          console.log('hash', hash);
+              console.log('hash', hash);
               hash[tag] = tag;
               return hash;
             }, {})

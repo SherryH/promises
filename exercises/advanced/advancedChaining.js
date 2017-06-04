@@ -30,18 +30,29 @@ var searchCommonTagsFromGitHubProfiles = function(githubHandles) {
   // });
   var arr = githubHandles.map(function(handle) {
     return lib.getGitHubProfile(handle)
-    .then(function(profile){
+    .then(function(profile) {
       return profile.avatarUrl;
     });
   });
 
-  lib.authenticateImageTagger()
+  var authToken = null;
+
+  return lib.authenticateImageTagger() //get the token
   .then(function(token) {
-    console.log('token',token);
-    //now need to get a set of tags for each url using tagImage()
+    console.log('token', token);
+    authToken = token;
+    return Promise.all(githubHandles.map(lib.getGitHubProfile));
+  })
+  .map(function(profile) {
+    //now need to get a set of tags for each url using tagImage() //need profile and token
+    console.log('profile', profile);
+    return lib.tagImage(profile.avatarUrl, authToken);
+  })
+  .then(function(tags) {
+    console.log('tagImage', tags);
+    return Promise.all(arr);
   });
 
-  return Promise.all(arr);
 
 };
 
